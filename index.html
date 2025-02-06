@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="countdown-wrapper">
+        <h1 id="countdown"></h1>
+    </div>
+    <div id="main-content" style="display: none;">
+        <div id="card-container" class="envelope">
+            <div id="card" class="card hidden">
+                <h1>Querido Visitante</h1>
+                <p>Te damos la bienvenida a este contenido especial. Esperamos que disfrutes la experiencia.</p>
+                <img src="https://via.placeholder.com/150" alt="Imagen representativa 1">
+                <img src="https://via.placeholder.com/150" alt="Imagen representativa 2">
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const countdownElement = document.getElementById('countdown');
+        const countdownWrapper = document.getElementById('countdown-wrapper');
+        const mainContent = document.getElementById('main-content');
+        const cardContainer = document.getElementById('card-container');
+        const card = document.getElementById('card');
+
+        // Variable de control para desarrollo
+        const skipCountdownForDevelopment = false;
+
+        function updateCountdown() {
+            const targetDate = new Date('2025-02-07T00:00:00');
+            const currentDate = new Date();
+
+            if (skipCountdownForDevelopment) {
+                countdownWrapper.style.display = 'none';
+                mainContent.style.display = 'block';
+                openEnvelopeAnimation();
+                return;
+            }
+
+            if (currentDate >= targetDate) {
+                countdownWrapper.style.display = 'none';
+                mainContent.style.display = 'block';
+                openEnvelopeAnimation();
+                return;
+            }
+
+            const totalSeconds = Math.floor((targetDate - currentDate) / 1000);
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s restantes.`;
+        }
+
+        function openEnvelopeAnimation() {
+            cardContainer.classList.add('envelope-open');
+            setTimeout(() => {
+                card.classList.remove('hidden');
+                card.classList.add('card-reveal');
+            }, 1000);
+        }
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+    <style>
+        /* Estilo para la carta dinámica */
+        #card-container {
+            position: relative;
+            width: 300px;
+            height: 200px;
+            background: #f3f3f3;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            perspective: 1000px;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        #card-container.envelope-open .envelope {
+            transform: rotateX(0deg) scale(1);
+        }
+
+        #card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(0deg);
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #card.card-reveal {
+            display: block;
+        }
+
+        #countdown-wrapper, #main-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #countdown {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    </style>
+</body>
+</html>

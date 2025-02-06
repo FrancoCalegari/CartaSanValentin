@@ -1,0 +1,52 @@
+/* Estilo general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ece9e6, #ffffff);
+    color: #333;
+    text-align: center;
+}
+
+#countdown-wrapper {
+    background: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+#countdown {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+#main-content {
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    color: #555;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1.2rem;
+}
+
+/* Transiciones suaves */
+#countdown-wrapper, #main-content {
+    transition: opacity 0.5s ease-in-out;
+}
