@@ -6,7 +6,7 @@ const mainContent = document.getElementById('main-content');
 const skipCountdownForDevelopment = true;
 
 function updateCountdown() {
-    const targetDate = new Date('2025-02-07T00:00:00');
+    const targetDate = new Date('2025-02-07T09:00:00');
     const currentDate = new Date();
 
     if (skipCountdownForDevelopment) {
