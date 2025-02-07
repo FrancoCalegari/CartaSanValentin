@@ -23,7 +23,7 @@ observer.observe(mainContent);
 }
 
 function updateCountdown() {
-const targetDate = new Date('2025-02-07T17:00:00');
+const targetDate = new Date('2025-02-07T17:05:00');
 const currentDate = new Date();
 
 if (skipCountdownForDevelopment) {
