@@ -12,110 +12,152 @@
     </div>
     <div id="main-content" style="display: none;">
         <div id="card-container" class="envelope">
-            <div id="card" class="card hidden">
-                <h1>Querido Visitante</h1>
-                <p>Te damos la bienvenida a este contenido especial. Esperamos que disfrutes la experiencia.</p>
-                <img src="https://via.placeholder.com/150" alt="Imagen representativa 1">
-                <img src="https://via.placeholder.com/150" alt="Imagen representativa 2">
+            <div class="top-flap"></div>
+            <div id="card" class="card">
+                <h1>Escuadrón de Reconocimiento</h1>
+                <h2>Comunicado Especial de San Valentín</h2>
+                <p>
+                    A la honorable Cadete <strong>Daniela María Olmedo</strong>:  
+                </p>
+                <p>
+                    Espero que estas líneas encuentren su espíritu firme y su voluntad inquebrantable, como siempre lo he observado en nuestras filas. Hoy me permito escribirle con una misión singular pero igualmente noble: una propuesta que podría beneficiar no solo a usted y al Cadete <strong>Franco Calegari</strong>, sino también al propósito más elevado de la humanidad: el amor.
+                </p>
+                <p>
+                    El Cadete <strong>Franco Calegari</strong>, con el corazón decidido y la valentía que caracteriza a un verdadero soldado, me ha confiado la tarea de transmitirle una invitación. Él, quien siempre ha demostrado ser un camarada digno en la batalla, anhela que usted sea su San Valentín este 14 de febrero. Considera que juntos podrían formar una alianza estratégica, no solo en la defensa de la humanidad, sino también en la construcción de algo más significativo: un amor que inspire y fortalezca en estos tiempos difíciles.
+                </p>
+                <p>
+                    Así como la <em>"Formación a Larga Distancia para Detección de Enemigos"</em> salvó innumerables vidas, estoy convencido de que aceptar esta propuesta puede ser el comienzo de una historia memorable. Una unión que demuestre que incluso en medio de la adversidad, hay espacio para la esperanza y el afecto.
+                </p>
+                <p>
+                    Sin más preámbulos, me permito preguntarle:  
+                    <strong>¿Aceptará usted ser el San Valentín del Cadete Franco Calegari y luchar juntos por el amor y la humanidad?</strong>
+                </p>
+                <p>
+                    Quedo a la espera de su respuesta, la cual confío será favorable, pues toda misión que involucre amor es digna de ser emprendida.
+                </p>
+                <p>
+                    Con el más alto respeto y el firme deseo de éxito en esta honorable propuesta,  
+                </p>
+                <p>
+                    <strong>Erwin Smith</strong><br>
+                    Comandante del Cuerpo de Exploración
+                </p>
+
+                <div id="mission-container"></div>
             </div>
+            
+            <div class="bottom-flap"></div>
         </div>
     </div>
-    
+
+    <script src="./timer.js"></script>
     <script>
-        const countdownElement = document.getElementById('countdown');
-        const countdownWrapper = document.getElementById('countdown-wrapper');
-        const mainContent = document.getElementById('main-content');
-        const cardContainer = document.getElementById('card-container');
-        const card = document.getElementById('card');
+        const missionContainer = document.getElementById('mission-container');
+    
+    // Crear los botones
+    const acceptButton = document.createElement('button');
+    acceptButton.textContent = 'Aceptar Misión';
+    acceptButton.style.margin = '10px';
+    acceptButton.style.padding = '10px 20px';
+    acceptButton.style.backgroundColor = '#27ae60';
+    acceptButton.style.color = 'white';
+    acceptButton.style.border = 'none';
+    acceptButton.style.borderRadius = '8px';
+    acceptButton.style.cursor = 'pointer';
+    acceptButton.style.fontFamily = "CampanaScript";
 
-        // Variable de control para desarrollo
-        const skipCountdownForDevelopment = false;
+    const denyButton = document.createElement('button');
+    denyButton.textContent = 'Denegar Misión';
+    denyButton.style.margin = '10px';
+    denyButton.style.padding = '10px 20px';
+    denyButton.style.backgroundColor = '#c0392b';
+    denyButton.style.color = 'white';
+    denyButton.style.border = 'none';
+    denyButton.style.borderRadius = '8px';
+    denyButton.style.cursor = 'pointer';
+    denyButton.style.fontFamily = "CampanaScript";
 
-        function updateCountdown() {
-            const targetDate = new Date('2025-02-07T11:00:00');
-            const currentDate = new Date();
+    // Agregar botones al contenedor
+    missionContainer.appendChild(acceptButton);
+    missionContainer.appendChild(denyButton);
 
-            if (skipCountdownForDevelopment) {
-                countdownWrapper.style.display = 'none';
-                mainContent.style.display = 'block';
-                openEnvelopeAnimation();
-                return;
-            }
+    // Mensajes personalizados
+    const rejectionMessages = [
+        "Rechazar esta carta de orden directa es una ofensa a la humanidad y puede tener consecuencias penales.",
+        "Negarse a esta misión podría ser considerado un acto de deslealtad al Cuerpo de Exploración.",
+        "¿Está seguro de desobedecer una orden directa? Las consecuencias podrían ser severas.",
+        "Rechazar esta misión pone en peligro la moral de nuestras filas. Reconsidérelo.",
+        "El comandante no toma a la ligera el rechazo de una orden. Piénselo bien."
+    ];
 
-            if (currentDate >= targetDate) {
-                countdownWrapper.style.display = 'none';
-                mainContent.style.display = 'block';
-                openEnvelopeAnimation();
-                return;
-            }
+    // Crear función para mostrar popup de confirmación
+    function showConfirmationPopup() {
+    // Crear el fondo oscurecido
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100%';
+    overlay.style.height = '100%';
+    overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+    overlay.style.zIndex = '1000';
+    overlay.style.fontFamily = "CampanaScript";
 
-            const totalSeconds = Math.floor((targetDate - currentDate) / 1000);
-            const days = Math.floor(totalSeconds / 86400);
-            const hours = Math.floor((totalSeconds % 86400) / 3600);
-            const minutes = Math.floor((totalSeconds % 3600) / 60);
-            const seconds = totalSeconds % 60;
+    // Crear la carta
+    const card = document.createElement('div');
+    card.style.background = 'linear-gradient(to bottom, #93b8ea, #F2F2F2, #97b8d4)';
+    card.style.padding = '20px';
+    card.style.borderRadius = '10px';
+    card.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.3)';
+    card.style.textAlign = 'center';
+    card.style.width = '80%';
+    card.style.maxWidth = '600px';
+    card.style.fontFamily = "CampanaScript";
+    card.style.color = '#262626';
 
-            countdownElement.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s restantes.`;
-        }
+    // Contenido de la carta
+    card.innerHTML = `
+        <h2 style="color: #034AA6; font-size: 1.5rem;">Escuadrón de Reconocimiento</h2>
+        <h3 style="color: #034C8C; font-size: 1.2rem;">Confirmación de Misión Especial de San Valentín</h3>
+        <p>A la distinguida Cadete Daniela María Olmedo:</p>
+        <p>Nos complace informarle que su aceptación de la misión ha sido recibida con entusiasmo por todo el Escuadrón de Reconocimiento.</p>
+        <p><strong>Detalles de la misión:</strong></p>
+        <ul style="text-align: left; padding-left: 20px;">
+            <li><strong>Equipo de Maniobras:</strong> Conquistar sonrisas.</li>
+            <li><strong>Maquillaje:</strong> Estrategia sutil pero efectiva.</li>
+            <li><strong>Perfume:</strong> Deje una huella inolvidable.</li>
+            <li><strong>Atuendo:</strong> Destaque su singular belleza.</li>
+        </ul>
+        <p>Confiamos en su éxito y en que esta expedición será una victoria memorable.</p>
+        <p style="font-weight: bold; color: #03588C;">Con el más alto respeto,</p>
+        <p><em>Erwin Smith</em><br>Comandante del Cuerpo de Exploración</p>
+        <button id="closePopup" style="margin-top: 15px; padding: 10px 20px; background-color: #034AA6; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem;">
+            Cerrar
+        </button>
+    `;
 
-        function openEnvelopeAnimation() {
-            cardContainer.classList.add('envelope-open');
-            setTimeout(() => {
-                card.classList.remove('hidden');
-                card.classList.add('card-reveal');
-            }, 1000);
-        }
+        // Agregar eventos para cerrar el popup
+        overlay.addEventListener('click', () => overlay.remove());
+        card.querySelector('#closePopup').addEventListener('click', () => overlay.remove());
 
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+        overlay.appendChild(card);
+        document.body.appendChild(overlay);
+    }
+
+    // Evento de aceptar misión
+    acceptButton.addEventListener('click', () => {
+        showConfirmationPopup();
+    });
+
+    // Evento de denegar misión
+    denyButton.addEventListener('click', () => {
+        const randomMessage = rejectionMessages[Math.floor(Math.random() * rejectionMessages.length)];
+        showPopup(randomMessage, 'error', 2000);
+    });
+
     </script>
-    <style>
-        /* Estilo para la carta dinámica */
-        #card-container {
-            position: relative;
-            width: 300px;
-            height: 200px;
-            background: #f3f3f3;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            perspective: 1000px;
-        }
-
-        .envelope {
-            position: relative;
-            width: 100%;
-            height: 100%;
-        }
-
-        #card-container.envelope-open .envelope {
-            transform: rotateX(0deg) scale(1);
-        }
-
-        #card {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotateX(0deg);
-            display: none;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        #card.card-reveal {
-            display: block;
-        }
-
-        #countdown-wrapper, #main-content {
-            text-align: center;
-            padding: 20px;
-        }
-
-        #countdown {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-    </style>
 </body>
 </html>

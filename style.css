@@ -1,27 +1,27 @@
-/* Estilo general */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+@font-face {
+    font-family: 'CampanaScript';
+    src: url('Billy\ Scriptian.ttf') format('opentype'); 
+    font-weight: normal;
+    font-style: normal;
 }
 
-body {
+  /* Estilo general */
+  body {
+    font-family: Arial, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(135deg, #ece9e6, #ffffff);
-    color: #333;
-    text-align: center;
+    background-image: url(./backgroundimg.jpg);
+    margin: 0;
+    overflow: auto; /* Permitir scroll si el contenido excede la pantalla */
+    font-family: CampanaScript;
 }
 
-#countdown-wrapper {
-    background: #333;
-    color: white;
+
+#countdown-wrapper, #main-content {
+    text-align: center;
     padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 #countdown {
@@ -29,24 +29,216 @@ body {
     font-weight: bold;
 }
 
-#main-content {
-    background: #f9f9f9;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    color: #555;
+/* Contenedor del sobre */
+#card-container {
+    position: relative;
+    width: 90vw;
+    height: 200px;
+    z-index: 1;
 }
 
-h1 {
-    font-size: 2.5rem;
+.envelope {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #034AA6;
+    border-radius: 10px;
+}
+
+.envelope .top-flap, .envelope .bottom-flap {
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    background: #034C8C;
+    transition: transform 1.2s ease;
+}
+
+.envelope .top-flap {
+    top: 0;
+    transform-origin: bottom;
+    transform: rotateX(0deg);
+}
+
+.envelope .bottom-flap {
+    bottom: 0;
+    transform-origin: top;
+    transform: rotateX(0deg);
+}
+
+/* Carta */
+/* Centrar #card dentro de #card-container */
+#card {
+    position: absolute;
+    top: 50%; /* Centrado vertical */
+    left: 50%; /* Centrado horizontal */
+    transform: translate(-50%, -50%) scale(0.8) rotateX(90deg);
+    padding: 20px;
+    transition: transform 1.5s ease 1s;
+    z-index: 10; /* Asegura que #card esté por encima del contenedor */
+    background-image: url(./backgroundimg.jpg);
+    color: #262626;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.808);
+    border-radius: 25px;
+    font-family: CampanaScript;
+    text-align: left;
+    line-height: 1.6;
+    margin: 0 auto;
+    width: 80vw;
+    max-width: 85vw;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+#card h1 {
+    color: #034AA6;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+#card h2 {
+    color: #e74c3c;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-top: -10px;
+}
+
+#card p {
+    margin: 10px 0;
+    font-size: 0.8rem;
+}
+
+#card strong {
+    color: #034C8C;
+}
+
+#card em {
+    color: #03588C;
+}
+
+#card::before {
+    content: "✉️";
+    font-size: 2rem;
+    display: block;
+    text-align: center;
     margin-bottom: 10px;
 }
 
-p {
-    font-size: 1.2rem;
+#card img {
+    max-width: 100px;
+    margin: 10px 0;
 }
 
-/* Transiciones suaves */
-#countdown-wrapper, #main-content {
-    transition: opacity 0.5s ease-in-out;
+/* Estado abierto */
+#card-container.envelope-open .top-flap {
+    transform: rotateX(-180deg);
 }
+
+#card-container.envelope-open .bottom-flap {
+    transform: rotateX(180deg);
+}
+
+/* Estado abierto */
+#card-container.envelope-open #card {
+    transform: translate(-50%, -50%) scale(1) rotateX(0deg);
+}
+
+/* Fondo oscurecido para el popup de aceptación de misión */
+#mission-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* Carta de confirmación */
+#mission-card {
+    background: linear-gradient(135deg, #F2F2F2, #ffffff);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 80vw;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    z-index: 1001;
+    font-family: 'Georgia', serif;
+    color: #262626;
+}
+
+#mission-card h2 {
+    color: #034AA6;
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+#mission-card h3 {
+    color: #034C8C;
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+#mission-card p {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+#mission-card ul {
+    text-align: left;
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+#mission-card li {
+    margin-bottom: 5px;
+}
+
+#mission-card button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #034AA6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Ajustar los popups de denegación para que estén por encima de #card */
+.popup-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #03588C;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 1002;
+    text-align: center;
+    font-size: 1rem;
+}
+
+/* Adaptación para móviles */
+@media (max-width: 600px) {
+    #card {
+        width: 90vw;
+        font-size: 0.9rem;
+    }
+
+    #card h1, #card h2 {
+        font-size: 1rem;
+    }
+
+    #card p {
+        font-size: 0.92rem;
+    }
+}
+
